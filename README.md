@@ -1,4 +1,5 @@
 C语言子集编译器
+
 这是一个用C语言实现的简单编译器，支持C语言的一个子集。它可以将源代码编译为中间代码（四元式）和MIPS汇编代码。该项目主要用于学习编译原理课程设计，展示了编译器的各个经典阶段：词法分析、语法分析、语义分析、中间代码生成、代码优化和目标代码生成。
 
 功能特性
@@ -56,30 +57,53 @@ bash
 ./compiler tests/test1.c
 
 项目结构
+
 text
 .
 ├── README.md
+
 ├── Makefile
+
 ├── lexer/
+
 │   ├── lexer.l                # Flex词法规则
+
 │   ├── symbol_table.c          # 符号表实现
+
 │   └── symbol_table.h
+
 ├── parser/
+
 │   ├── mybison.y               # Bison语法规则
+
 │   ├── mybison.tab.c                   
+
 │   └── mybison.tab.h
+
 │   ├── mybison.tab.o                    
+
 │   └── mybison.output
+
 │   ├── ast.c                    # 抽象语法树实现
+
 │   └── ast.h
+
 ├── ir/
+
 │   ├── ir.c                     # 中间代码生成
+
 │   ├── ir.h
+
 ├── optimize/
+
 │   ├── optimize.c               # 代码优化
+
 │   └── optimize.h
+
 ├── typecheck.c                  # 类型检查实现
+
 └── typecheck.h
+
 └── tests/
     ├── test1.c                  
     ├── test2.c             
@@ -89,6 +113,7 @@ text
  └── .h
  └── typecheck.h
  └── typecheck.h
+ 
 编译流程说明
 词法分析：使用Flex生成词法分析器，将源代码分割为Token序列。
 
@@ -119,26 +144,6 @@ int main() {
 
 bash
 ./compiler test.c
-输出：
-
-text
-...
-========== Intermediate Code (IR) ==========
-OPCODE       ARG1       ARG2       RESULT
----------------------------------------------
-ASSIGN       10         -          a
-ASSIGN       3.140000   -          b
-ADD          a          20         t1
-ASSIGN       t1         -          sum
-GT           a          5          t2
-IF_FALSE     t2         -          L0
-FADD         b          1.000000   t3
-ASSIGN       t3         -          b
-LABEL        -          -          L0
-RETURN       0          -          -
----------------------------------------------
-Total instructions: 10
-=============================================
 
 贡献指南
 欢迎提交Issue和Pull Request。请确保代码风格一致，并添加适当的测试。
