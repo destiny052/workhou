@@ -1,0 +1,1910 @@
+Rules useless in parser due to conflicts
+
+   12 stmt_list: stmt
+   13          | stmt_list stmt
+
+
+State 0 conflicts: 17 shift/reduce
+State 18 conflicts: 18 shift/reduce
+State 20 conflicts: 19 reduce/reduce
+State 54 conflicts: 19 reduce/reduce
+State 99 conflicts: 17 shift/reduce
+State 102 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: MAIN LP RP LBRACE stmt_list RBRACE
+    2        | stmt_list
+
+    3 stmt: declaration
+    4     | compound_stmt
+    5     | expr_stmt
+    6     | select_stmt
+    7     | iter_stmt
+    8     | jump_stmt
+
+    9 stmt_list: stmt
+   10          | stmt_list stmt
+   11          | /* empty */
+   12          | stmt
+   13          | stmt_list stmt
+
+   14 type_specifier: INT
+   15               | VOID
+   16               | FLOAT
+   17               | DOUBLE
+
+   18 declaration: type_specifier decl_list SEMI
+
+   19 decl_list: init_declarator
+   20          | decl_list COMMA init_declarator
+
+   21 init_declarator: ID
+   22                | ID ASSIGN expression
+
+   23 compound_stmt: LBRACE stmt_list RBRACE
+   24              | LBRACE RBRACE
+
+   25 expr_stmt: expression SEMI
+   26          | SEMI
+
+   27 select_stmt: IF LP expression RP stmt
+   28            | IF LP expression RP stmt ELSE stmt
+
+   29 iter_stmt: WHILE LP expression RP stmt
+   30          | FOR LP expr_stmt expr_stmt expression RP stmt
+
+   31 jump_stmt: RETURN expression SEMI
+   32          | RETURN SEMI
+
+   33 expression: assign_expr
+
+   34 assign_expr: logic_or_expr
+   35            | ID ASSIGN assign_expr
+
+   36 logic_or_expr: logic_and_expr
+   37              | logic_or_expr OR logic_and_expr
+
+   38 logic_and_expr: equality_expr
+   39               | logic_and_expr AND equality_expr
+
+   40 equality_expr: relational_expr
+   41              | equality_expr EQ relational_expr
+   42              | equality_expr NEQ relational_expr
+
+   43 relational_expr: additive_expr
+   44                | relational_expr LT additive_expr
+   45                | relational_expr GT additive_expr
+   46                | relational_expr LE additive_expr
+   47                | relational_expr GE additive_expr
+
+   48 additive_expr: multiplicative_expr
+   49              | additive_expr ADD multiplicative_expr
+   50              | additive_expr SUB multiplicative_expr
+
+   51 multiplicative_expr: unary_expr
+   52                    | multiplicative_expr MUL unary_expr
+   53                    | multiplicative_expr DIV unary_expr
+   54                    | multiplicative_expr MOD unary_expr
+
+   55 unary_expr: primary_expr
+   56           | ADD unary_expr
+   57           | SUB unary_expr
+   58           | NOT unary_expr
+
+   59 primary_expr: ID
+   60             | NUMBER
+   61             | REAL_NUMBER
+   62             | LP expression RP
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+INT (258) 14
+VOID (259) 15
+IF (260) 27 28
+ELSE (261) 28
+WHILE (262) 29
+FOR (263) 30
+RETURN (264) 31 32
+MAIN (265) 1
+FLOAT (266) 16
+DOUBLE (267) 17
+REAL_NUMBER (268) 61
+NUMBER (269) 60
+ID (270) 21 22 35 59
+EQ (271) 41
+NEQ (272) 42
+GE (273) 47
+LE (274) 46
+GT (275) 45
+LT (276) 44
+ASSIGN (277) 22 35
+AND (278) 39
+OR (279) 37
+NOT (280) 58
+ADD (281) 49 56
+SUB (282) 50 57
+MUL (283) 52
+DIV (284) 53
+MOD (285) 54
+SEMI (286) 18 25 26 31 32
+COMMA (287) 20
+LP (288) 1 27 28 29 30 62
+RP (289) 1 27 28 29 30 62
+LBRACE (290) 1 23 24
+RBRACE (291) 1 23 24
+
+
+Nonterminals, with rules where they appear
+
+$accept (37)
+    on left: 0
+program (38)
+    on left: 1 2, on right: 0
+stmt (39)
+    on left: 3 4 5 6 7 8, on right: 9 10 12 13 27 28 29 30
+stmt_list (40)
+    on left: 9 10 11 12 13, on right: 1 2 10 13 23
+type_specifier (41)
+    on left: 14 15 16 17, on right: 18
+declaration (42)
+    on left: 18, on right: 3
+decl_list (43)
+    on left: 19 20, on right: 18 20
+init_declarator (44)
+    on left: 21 22, on right: 19 20
+compound_stmt (45)
+    on left: 23 24, on right: 4
+expr_stmt (46)
+    on left: 25 26, on right: 5 30
+select_stmt (47)
+    on left: 27 28, on right: 6
+iter_stmt (48)
+    on left: 29 30, on right: 7
+jump_stmt (49)
+    on left: 31 32, on right: 8
+expression (50)
+    on left: 33, on right: 22 25 27 28 29 30 31 62
+assign_expr (51)
+    on left: 34 35, on right: 33 35
+logic_or_expr (52)
+    on left: 36 37, on right: 34 37
+logic_and_expr (53)
+    on left: 38 39, on right: 36 37 39
+equality_expr (54)
+    on left: 40 41 42, on right: 38 39 41 42
+relational_expr (55)
+    on left: 43 44 45 46 47, on right: 40 41 42 44 45 46 47
+additive_expr (56)
+    on left: 48 49 50, on right: 43 44 45 46 47 49 50
+multiplicative_expr (57)
+    on left: 51 52 53 54, on right: 48 49 50 52 53 54
+unary_expr (58)
+    on left: 55 56 57 58, on right: 51 52 53 54 56 57 58
+primary_expr (59)
+    on left: 59 60 61 62, on right: 55
+
+
+state 0
+
+    0 $accept: . program $end
+
+    INT          shift, and go to state 1
+    VOID         shift, and go to state 2
+    IF           shift, and go to state 3
+    WHILE        shift, and go to state 4
+    FOR          shift, and go to state 5
+    RETURN       shift, and go to state 6
+    MAIN         shift, and go to state 7
+    FLOAT        shift, and go to state 8
+    DOUBLE       shift, and go to state 9
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 12
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    SEMI         shift, and go to state 16
+    LP           shift, and go to state 17
+    LBRACE       shift, and go to state 18
+
+    INT          [reduce using rule 11 (stmt_list)]
+    VOID         [reduce using rule 11 (stmt_list)]
+    IF           [reduce using rule 11 (stmt_list)]
+    WHILE        [reduce using rule 11 (stmt_list)]
+    FOR          [reduce using rule 11 (stmt_list)]
+    RETURN       [reduce using rule 11 (stmt_list)]
+    FLOAT        [reduce using rule 11 (stmt_list)]
+    DOUBLE       [reduce using rule 11 (stmt_list)]
+    REAL_NUMBER  [reduce using rule 11 (stmt_list)]
+    NUMBER       [reduce using rule 11 (stmt_list)]
+    ID           [reduce using rule 11 (stmt_list)]
+    NOT          [reduce using rule 11 (stmt_list)]
+    ADD          [reduce using rule 11 (stmt_list)]
+    SUB          [reduce using rule 11 (stmt_list)]
+    SEMI         [reduce using rule 11 (stmt_list)]
+    LP           [reduce using rule 11 (stmt_list)]
+    LBRACE       [reduce using rule 11 (stmt_list)]
+    $default     reduce using rule 11 (stmt_list)
+
+    program              go to state 19
+    stmt                 go to state 20
+    stmt_list            go to state 21
+    type_specifier       go to state 22
+    declaration          go to state 23
+    compound_stmt        go to state 24
+    expr_stmt            go to state 25
+    select_stmt          go to state 26
+    iter_stmt            go to state 27
+    jump_stmt            go to state 28
+    expression           go to state 29
+    assign_expr          go to state 30
+    logic_or_expr        go to state 31
+    logic_and_expr       go to state 32
+    equality_expr        go to state 33
+    relational_expr      go to state 34
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 1
+
+   14 type_specifier: INT .
+
+    $default  reduce using rule 14 (type_specifier)
+
+
+state 2
+
+   15 type_specifier: VOID .
+
+    $default  reduce using rule 15 (type_specifier)
+
+
+state 3
+
+   27 select_stmt: IF . LP expression RP stmt
+   28            | IF . LP expression RP stmt ELSE stmt
+
+    LP  shift, and go to state 39
+
+
+state 4
+
+   29 iter_stmt: WHILE . LP expression RP stmt
+
+    LP  shift, and go to state 40
+
+
+state 5
+
+   30 iter_stmt: FOR . LP expr_stmt expr_stmt expression RP stmt
+
+    LP  shift, and go to state 41
+
+
+state 6
+
+   31 jump_stmt: RETURN . expression SEMI
+   32          | RETURN . SEMI
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 12
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    SEMI         shift, and go to state 42
+    LP           shift, and go to state 17
+
+    expression           go to state 43
+    assign_expr          go to state 30
+    logic_or_expr        go to state 31
+    logic_and_expr       go to state 32
+    equality_expr        go to state 33
+    relational_expr      go to state 34
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 7
+
+    1 program: MAIN . LP RP LBRACE stmt_list RBRACE
+
+    LP  shift, and go to state 44
+
+
+state 8
+
+   16 type_specifier: FLOAT .
+
+    $default  reduce using rule 16 (type_specifier)
+
+
+state 9
+
+   17 type_specifier: DOUBLE .
+
+    $default  reduce using rule 17 (type_specifier)
+
+
+state 10
+
+   61 primary_expr: REAL_NUMBER .
+
+    $default  reduce using rule 61 (primary_expr)
+
+
+state 11
+
+   60 primary_expr: NUMBER .
+
+    $default  reduce using rule 60 (primary_expr)
+
+
+state 12
+
+   35 assign_expr: ID . ASSIGN assign_expr
+   59 primary_expr: ID .
+
+    ASSIGN  shift, and go to state 45
+
+    $default  reduce using rule 59 (primary_expr)
+
+
+state 13
+
+   58 unary_expr: NOT . unary_expr
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 46
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    LP           shift, and go to state 17
+
+    unary_expr    go to state 47
+    primary_expr  go to state 38
+
+
+state 14
+
+   56 unary_expr: ADD . unary_expr
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 46
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    LP           shift, and go to state 17
+
+    unary_expr    go to state 48
+    primary_expr  go to state 38
+
+
+state 15
+
+   57 unary_expr: SUB . unary_expr
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 46
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    LP           shift, and go to state 17
+
+    unary_expr    go to state 49
+    primary_expr  go to state 38
+
+
+state 16
+
+   26 expr_stmt: SEMI .
+
+    $default  reduce using rule 26 (expr_stmt)
+
+
+state 17
+
+   62 primary_expr: LP . expression RP
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 12
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    LP           shift, and go to state 17
+
+    expression           go to state 50
+    assign_expr          go to state 30
+    logic_or_expr        go to state 31
+    logic_and_expr       go to state 32
+    equality_expr        go to state 33
+    relational_expr      go to state 34
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 18
+
+   23 compound_stmt: LBRACE . stmt_list RBRACE
+   24              | LBRACE . RBRACE
+
+    INT          shift, and go to state 1
+    VOID         shift, and go to state 2
+    IF           shift, and go to state 3
+    WHILE        shift, and go to state 4
+    FOR          shift, and go to state 5
+    RETURN       shift, and go to state 6
+    FLOAT        shift, and go to state 8
+    DOUBLE       shift, and go to state 9
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 12
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    SEMI         shift, and go to state 16
+    LP           shift, and go to state 17
+    LBRACE       shift, and go to state 18
+    RBRACE       shift, and go to state 51
+
+    INT          [reduce using rule 11 (stmt_list)]
+    VOID         [reduce using rule 11 (stmt_list)]
+    IF           [reduce using rule 11 (stmt_list)]
+    WHILE        [reduce using rule 11 (stmt_list)]
+    FOR          [reduce using rule 11 (stmt_list)]
+    RETURN       [reduce using rule 11 (stmt_list)]
+    FLOAT        [reduce using rule 11 (stmt_list)]
+    DOUBLE       [reduce using rule 11 (stmt_list)]
+    REAL_NUMBER  [reduce using rule 11 (stmt_list)]
+    NUMBER       [reduce using rule 11 (stmt_list)]
+    ID           [reduce using rule 11 (stmt_list)]
+    NOT          [reduce using rule 11 (stmt_list)]
+    ADD          [reduce using rule 11 (stmt_list)]
+    SUB          [reduce using rule 11 (stmt_list)]
+    SEMI         [reduce using rule 11 (stmt_list)]
+    LP           [reduce using rule 11 (stmt_list)]
+    LBRACE       [reduce using rule 11 (stmt_list)]
+    RBRACE       [reduce using rule 11 (stmt_list)]
+
+    stmt                 go to state 20
+    stmt_list            go to state 52
+    type_specifier       go to state 22
+    declaration          go to state 23
+    compound_stmt        go to state 24
+    expr_stmt            go to state 25
+    select_stmt          go to state 26
+    iter_stmt            go to state 27
+    jump_stmt            go to state 28
+    expression           go to state 29
+    assign_expr          go to state 30
+    logic_or_expr        go to state 31
+    logic_and_expr       go to state 32
+    equality_expr        go to state 33
+    relational_expr      go to state 34
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 19
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 53
+
+
+state 20
+
+    9 stmt_list: stmt .
+   12          | stmt .
+
+    $end         reduce using rule 9 (stmt_list)
+    $end         [reduce using rule 12 (stmt_list)]
+    INT          reduce using rule 9 (stmt_list)
+    INT          [reduce using rule 12 (stmt_list)]
+    VOID         reduce using rule 9 (stmt_list)
+    VOID         [reduce using rule 12 (stmt_list)]
+    IF           reduce using rule 9 (stmt_list)
+    IF           [reduce using rule 12 (stmt_list)]
+    WHILE        reduce using rule 9 (stmt_list)
+    WHILE        [reduce using rule 12 (stmt_list)]
+    FOR          reduce using rule 9 (stmt_list)
+    FOR          [reduce using rule 12 (stmt_list)]
+    RETURN       reduce using rule 9 (stmt_list)
+    RETURN       [reduce using rule 12 (stmt_list)]
+    FLOAT        reduce using rule 9 (stmt_list)
+    FLOAT        [reduce using rule 12 (stmt_list)]
+    DOUBLE       reduce using rule 9 (stmt_list)
+    DOUBLE       [reduce using rule 12 (stmt_list)]
+    REAL_NUMBER  reduce using rule 9 (stmt_list)
+    REAL_NUMBER  [reduce using rule 12 (stmt_list)]
+    NUMBER       reduce using rule 9 (stmt_list)
+    NUMBER       [reduce using rule 12 (stmt_list)]
+    ID           reduce using rule 9 (stmt_list)
+    ID           [reduce using rule 12 (stmt_list)]
+    NOT          reduce using rule 9 (stmt_list)
+    NOT          [reduce using rule 12 (stmt_list)]
+    ADD          reduce using rule 9 (stmt_list)
+    ADD          [reduce using rule 12 (stmt_list)]
+    SUB          reduce using rule 9 (stmt_list)
+    SUB          [reduce using rule 12 (stmt_list)]
+    SEMI         reduce using rule 9 (stmt_list)
+    SEMI         [reduce using rule 12 (stmt_list)]
+    LP           reduce using rule 9 (stmt_list)
+    LP           [reduce using rule 12 (stmt_list)]
+    LBRACE       reduce using rule 9 (stmt_list)
+    LBRACE       [reduce using rule 12 (stmt_list)]
+    RBRACE       reduce using rule 9 (stmt_list)
+    RBRACE       [reduce using rule 12 (stmt_list)]
+    $default     reduce using rule 9 (stmt_list)
+
+
+state 21
+
+    2 program: stmt_list .
+   10 stmt_list: stmt_list . stmt
+   13          | stmt_list . stmt
+
+    INT          shift, and go to state 1
+    VOID         shift, and go to state 2
+    IF           shift, and go to state 3
+    WHILE        shift, and go to state 4
+    FOR          shift, and go to state 5
+    RETURN       shift, and go to state 6
+    FLOAT        shift, and go to state 8
+    DOUBLE       shift, and go to state 9
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 12
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    SEMI         shift, and go to state 16
+    LP           shift, and go to state 17
+    LBRACE       shift, and go to state 18
+
+    $default  reduce using rule 2 (program)
+
+    stmt                 go to state 54
+    type_specifier       go to state 22
+    declaration          go to state 23
+    compound_stmt        go to state 24
+    expr_stmt            go to state 25
+    select_stmt          go to state 26
+    iter_stmt            go to state 27
+    jump_stmt            go to state 28
+    expression           go to state 29
+    assign_expr          go to state 30
+    logic_or_expr        go to state 31
+    logic_and_expr       go to state 32
+    equality_expr        go to state 33
+    relational_expr      go to state 34
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 22
+
+   18 declaration: type_specifier . decl_list SEMI
+
+    ID  shift, and go to state 55
+
+    decl_list        go to state 56
+    init_declarator  go to state 57
+
+
+state 23
+
+    3 stmt: declaration .
+
+    $default  reduce using rule 3 (stmt)
+
+
+state 24
+
+    4 stmt: compound_stmt .
+
+    $default  reduce using rule 4 (stmt)
+
+
+state 25
+
+    5 stmt: expr_stmt .
+
+    $default  reduce using rule 5 (stmt)
+
+
+state 26
+
+    6 stmt: select_stmt .
+
+    $default  reduce using rule 6 (stmt)
+
+
+state 27
+
+    7 stmt: iter_stmt .
+
+    $default  reduce using rule 7 (stmt)
+
+
+state 28
+
+    8 stmt: jump_stmt .
+
+    $default  reduce using rule 8 (stmt)
+
+
+state 29
+
+   25 expr_stmt: expression . SEMI
+
+    SEMI  shift, and go to state 58
+
+
+state 30
+
+   33 expression: assign_expr .
+
+    $default  reduce using rule 33 (expression)
+
+
+state 31
+
+   34 assign_expr: logic_or_expr .
+   37 logic_or_expr: logic_or_expr . OR logic_and_expr
+
+    OR  shift, and go to state 59
+
+    $default  reduce using rule 34 (assign_expr)
+
+
+state 32
+
+   36 logic_or_expr: logic_and_expr .
+   39 logic_and_expr: logic_and_expr . AND equality_expr
+
+    AND  shift, and go to state 60
+
+    $default  reduce using rule 36 (logic_or_expr)
+
+
+state 33
+
+   38 logic_and_expr: equality_expr .
+   41 equality_expr: equality_expr . EQ relational_expr
+   42              | equality_expr . NEQ relational_expr
+
+    EQ   shift, and go to state 61
+    NEQ  shift, and go to state 62
+
+    $default  reduce using rule 38 (logic_and_expr)
+
+
+state 34
+
+   40 equality_expr: relational_expr .
+   44 relational_expr: relational_expr . LT additive_expr
+   45                | relational_expr . GT additive_expr
+   46                | relational_expr . LE additive_expr
+   47                | relational_expr . GE additive_expr
+
+    GE  shift, and go to state 63
+    LE  shift, and go to state 64
+    GT  shift, and go to state 65
+    LT  shift, and go to state 66
+
+    $default  reduce using rule 40 (equality_expr)
+
+
+state 35
+
+   43 relational_expr: additive_expr .
+   49 additive_expr: additive_expr . ADD multiplicative_expr
+   50              | additive_expr . SUB multiplicative_expr
+
+    ADD  shift, and go to state 67
+    SUB  shift, and go to state 68
+
+    $default  reduce using rule 43 (relational_expr)
+
+
+state 36
+
+   48 additive_expr: multiplicative_expr .
+   52 multiplicative_expr: multiplicative_expr . MUL unary_expr
+   53                    | multiplicative_expr . DIV unary_expr
+   54                    | multiplicative_expr . MOD unary_expr
+
+    MUL  shift, and go to state 69
+    DIV  shift, and go to state 70
+    MOD  shift, and go to state 71
+
+    $default  reduce using rule 48 (additive_expr)
+
+
+state 37
+
+   51 multiplicative_expr: unary_expr .
+
+    $default  reduce using rule 51 (multiplicative_expr)
+
+
+state 38
+
+   55 unary_expr: primary_expr .
+
+    $default  reduce using rule 55 (unary_expr)
+
+
+state 39
+
+   27 select_stmt: IF LP . expression RP stmt
+   28            | IF LP . expression RP stmt ELSE stmt
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 12
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    LP           shift, and go to state 17
+
+    expression           go to state 72
+    assign_expr          go to state 30
+    logic_or_expr        go to state 31
+    logic_and_expr       go to state 32
+    equality_expr        go to state 33
+    relational_expr      go to state 34
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 40
+
+   29 iter_stmt: WHILE LP . expression RP stmt
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 12
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    LP           shift, and go to state 17
+
+    expression           go to state 73
+    assign_expr          go to state 30
+    logic_or_expr        go to state 31
+    logic_and_expr       go to state 32
+    equality_expr        go to state 33
+    relational_expr      go to state 34
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 41
+
+   30 iter_stmt: FOR LP . expr_stmt expr_stmt expression RP stmt
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 12
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    SEMI         shift, and go to state 16
+    LP           shift, and go to state 17
+
+    expr_stmt            go to state 74
+    expression           go to state 29
+    assign_expr          go to state 30
+    logic_or_expr        go to state 31
+    logic_and_expr       go to state 32
+    equality_expr        go to state 33
+    relational_expr      go to state 34
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 42
+
+   32 jump_stmt: RETURN SEMI .
+
+    $default  reduce using rule 32 (jump_stmt)
+
+
+state 43
+
+   31 jump_stmt: RETURN expression . SEMI
+
+    SEMI  shift, and go to state 75
+
+
+state 44
+
+    1 program: MAIN LP . RP LBRACE stmt_list RBRACE
+
+    RP  shift, and go to state 76
+
+
+state 45
+
+   35 assign_expr: ID ASSIGN . assign_expr
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 12
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    LP           shift, and go to state 17
+
+    assign_expr          go to state 77
+    logic_or_expr        go to state 31
+    logic_and_expr       go to state 32
+    equality_expr        go to state 33
+    relational_expr      go to state 34
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 46
+
+   59 primary_expr: ID .
+
+    $default  reduce using rule 59 (primary_expr)
+
+
+state 47
+
+   58 unary_expr: NOT unary_expr .
+
+    $default  reduce using rule 58 (unary_expr)
+
+
+state 48
+
+   56 unary_expr: ADD unary_expr .
+
+    $default  reduce using rule 56 (unary_expr)
+
+
+state 49
+
+   57 unary_expr: SUB unary_expr .
+
+    $default  reduce using rule 57 (unary_expr)
+
+
+state 50
+
+   62 primary_expr: LP expression . RP
+
+    RP  shift, and go to state 78
+
+
+state 51
+
+   24 compound_stmt: LBRACE RBRACE .
+
+    $default  reduce using rule 24 (compound_stmt)
+
+
+state 52
+
+   10 stmt_list: stmt_list . stmt
+   13          | stmt_list . stmt
+   23 compound_stmt: LBRACE stmt_list . RBRACE
+
+    INT          shift, and go to state 1
+    VOID         shift, and go to state 2
+    IF           shift, and go to state 3
+    WHILE        shift, and go to state 4
+    FOR          shift, and go to state 5
+    RETURN       shift, and go to state 6
+    FLOAT        shift, and go to state 8
+    DOUBLE       shift, and go to state 9
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 12
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    SEMI         shift, and go to state 16
+    LP           shift, and go to state 17
+    LBRACE       shift, and go to state 18
+    RBRACE       shift, and go to state 79
+
+    stmt                 go to state 54
+    type_specifier       go to state 22
+    declaration          go to state 23
+    compound_stmt        go to state 24
+    expr_stmt            go to state 25
+    select_stmt          go to state 26
+    iter_stmt            go to state 27
+    jump_stmt            go to state 28
+    expression           go to state 29
+    assign_expr          go to state 30
+    logic_or_expr        go to state 31
+    logic_and_expr       go to state 32
+    equality_expr        go to state 33
+    relational_expr      go to state 34
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 53
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+state 54
+
+   10 stmt_list: stmt_list stmt .
+   13          | stmt_list stmt .
+
+    $end         reduce using rule 10 (stmt_list)
+    $end         [reduce using rule 13 (stmt_list)]
+    INT          reduce using rule 10 (stmt_list)
+    INT          [reduce using rule 13 (stmt_list)]
+    VOID         reduce using rule 10 (stmt_list)
+    VOID         [reduce using rule 13 (stmt_list)]
+    IF           reduce using rule 10 (stmt_list)
+    IF           [reduce using rule 13 (stmt_list)]
+    WHILE        reduce using rule 10 (stmt_list)
+    WHILE        [reduce using rule 13 (stmt_list)]
+    FOR          reduce using rule 10 (stmt_list)
+    FOR          [reduce using rule 13 (stmt_list)]
+    RETURN       reduce using rule 10 (stmt_list)
+    RETURN       [reduce using rule 13 (stmt_list)]
+    FLOAT        reduce using rule 10 (stmt_list)
+    FLOAT        [reduce using rule 13 (stmt_list)]
+    DOUBLE       reduce using rule 10 (stmt_list)
+    DOUBLE       [reduce using rule 13 (stmt_list)]
+    REAL_NUMBER  reduce using rule 10 (stmt_list)
+    REAL_NUMBER  [reduce using rule 13 (stmt_list)]
+    NUMBER       reduce using rule 10 (stmt_list)
+    NUMBER       [reduce using rule 13 (stmt_list)]
+    ID           reduce using rule 10 (stmt_list)
+    ID           [reduce using rule 13 (stmt_list)]
+    NOT          reduce using rule 10 (stmt_list)
+    NOT          [reduce using rule 13 (stmt_list)]
+    ADD          reduce using rule 10 (stmt_list)
+    ADD          [reduce using rule 13 (stmt_list)]
+    SUB          reduce using rule 10 (stmt_list)
+    SUB          [reduce using rule 13 (stmt_list)]
+    SEMI         reduce using rule 10 (stmt_list)
+    SEMI         [reduce using rule 13 (stmt_list)]
+    LP           reduce using rule 10 (stmt_list)
+    LP           [reduce using rule 13 (stmt_list)]
+    LBRACE       reduce using rule 10 (stmt_list)
+    LBRACE       [reduce using rule 13 (stmt_list)]
+    RBRACE       reduce using rule 10 (stmt_list)
+    RBRACE       [reduce using rule 13 (stmt_list)]
+    $default     reduce using rule 10 (stmt_list)
+
+
+state 55
+
+   21 init_declarator: ID .
+   22                | ID . ASSIGN expression
+
+    ASSIGN  shift, and go to state 80
+
+    $default  reduce using rule 21 (init_declarator)
+
+
+state 56
+
+   18 declaration: type_specifier decl_list . SEMI
+   20 decl_list: decl_list . COMMA init_declarator
+
+    SEMI   shift, and go to state 81
+    COMMA  shift, and go to state 82
+
+
+state 57
+
+   19 decl_list: init_declarator .
+
+    $default  reduce using rule 19 (decl_list)
+
+
+state 58
+
+   25 expr_stmt: expression SEMI .
+
+    $default  reduce using rule 25 (expr_stmt)
+
+
+state 59
+
+   37 logic_or_expr: logic_or_expr OR . logic_and_expr
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 46
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    LP           shift, and go to state 17
+
+    logic_and_expr       go to state 83
+    equality_expr        go to state 33
+    relational_expr      go to state 34
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 60
+
+   39 logic_and_expr: logic_and_expr AND . equality_expr
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 46
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    LP           shift, and go to state 17
+
+    equality_expr        go to state 84
+    relational_expr      go to state 34
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 61
+
+   41 equality_expr: equality_expr EQ . relational_expr
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 46
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    LP           shift, and go to state 17
+
+    relational_expr      go to state 85
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 62
+
+   42 equality_expr: equality_expr NEQ . relational_expr
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 46
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    LP           shift, and go to state 17
+
+    relational_expr      go to state 86
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 63
+
+   47 relational_expr: relational_expr GE . additive_expr
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 46
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    LP           shift, and go to state 17
+
+    additive_expr        go to state 87
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 64
+
+   46 relational_expr: relational_expr LE . additive_expr
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 46
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    LP           shift, and go to state 17
+
+    additive_expr        go to state 88
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 65
+
+   45 relational_expr: relational_expr GT . additive_expr
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 46
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    LP           shift, and go to state 17
+
+    additive_expr        go to state 89
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 66
+
+   44 relational_expr: relational_expr LT . additive_expr
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 46
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    LP           shift, and go to state 17
+
+    additive_expr        go to state 90
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 67
+
+   49 additive_expr: additive_expr ADD . multiplicative_expr
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 46
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    LP           shift, and go to state 17
+
+    multiplicative_expr  go to state 91
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 68
+
+   50 additive_expr: additive_expr SUB . multiplicative_expr
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 46
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    LP           shift, and go to state 17
+
+    multiplicative_expr  go to state 92
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 69
+
+   52 multiplicative_expr: multiplicative_expr MUL . unary_expr
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 46
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    LP           shift, and go to state 17
+
+    unary_expr    go to state 93
+    primary_expr  go to state 38
+
+
+state 70
+
+   53 multiplicative_expr: multiplicative_expr DIV . unary_expr
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 46
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    LP           shift, and go to state 17
+
+    unary_expr    go to state 94
+    primary_expr  go to state 38
+
+
+state 71
+
+   54 multiplicative_expr: multiplicative_expr MOD . unary_expr
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 46
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    LP           shift, and go to state 17
+
+    unary_expr    go to state 95
+    primary_expr  go to state 38
+
+
+state 72
+
+   27 select_stmt: IF LP expression . RP stmt
+   28            | IF LP expression . RP stmt ELSE stmt
+
+    RP  shift, and go to state 96
+
+
+state 73
+
+   29 iter_stmt: WHILE LP expression . RP stmt
+
+    RP  shift, and go to state 97
+
+
+state 74
+
+   30 iter_stmt: FOR LP expr_stmt . expr_stmt expression RP stmt
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 12
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    SEMI         shift, and go to state 16
+    LP           shift, and go to state 17
+
+    expr_stmt            go to state 98
+    expression           go to state 29
+    assign_expr          go to state 30
+    logic_or_expr        go to state 31
+    logic_and_expr       go to state 32
+    equality_expr        go to state 33
+    relational_expr      go to state 34
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 75
+
+   31 jump_stmt: RETURN expression SEMI .
+
+    $default  reduce using rule 31 (jump_stmt)
+
+
+state 76
+
+    1 program: MAIN LP RP . LBRACE stmt_list RBRACE
+
+    LBRACE  shift, and go to state 99
+
+
+state 77
+
+   35 assign_expr: ID ASSIGN assign_expr .
+
+    $default  reduce using rule 35 (assign_expr)
+
+
+state 78
+
+   62 primary_expr: LP expression RP .
+
+    $default  reduce using rule 62 (primary_expr)
+
+
+state 79
+
+   23 compound_stmt: LBRACE stmt_list RBRACE .
+
+    $default  reduce using rule 23 (compound_stmt)
+
+
+state 80
+
+   22 init_declarator: ID ASSIGN . expression
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 12
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    LP           shift, and go to state 17
+
+    expression           go to state 100
+    assign_expr          go to state 30
+    logic_or_expr        go to state 31
+    logic_and_expr       go to state 32
+    equality_expr        go to state 33
+    relational_expr      go to state 34
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 81
+
+   18 declaration: type_specifier decl_list SEMI .
+
+    $default  reduce using rule 18 (declaration)
+
+
+state 82
+
+   20 decl_list: decl_list COMMA . init_declarator
+
+    ID  shift, and go to state 55
+
+    init_declarator  go to state 101
+
+
+state 83
+
+   37 logic_or_expr: logic_or_expr OR logic_and_expr .
+   39 logic_and_expr: logic_and_expr . AND equality_expr
+
+    AND  shift, and go to state 60
+
+    $default  reduce using rule 37 (logic_or_expr)
+
+
+state 84
+
+   39 logic_and_expr: logic_and_expr AND equality_expr .
+   41 equality_expr: equality_expr . EQ relational_expr
+   42              | equality_expr . NEQ relational_expr
+
+    EQ   shift, and go to state 61
+    NEQ  shift, and go to state 62
+
+    $default  reduce using rule 39 (logic_and_expr)
+
+
+state 85
+
+   41 equality_expr: equality_expr EQ relational_expr .
+   44 relational_expr: relational_expr . LT additive_expr
+   45                | relational_expr . GT additive_expr
+   46                | relational_expr . LE additive_expr
+   47                | relational_expr . GE additive_expr
+
+    GE  shift, and go to state 63
+    LE  shift, and go to state 64
+    GT  shift, and go to state 65
+    LT  shift, and go to state 66
+
+    $default  reduce using rule 41 (equality_expr)
+
+
+state 86
+
+   42 equality_expr: equality_expr NEQ relational_expr .
+   44 relational_expr: relational_expr . LT additive_expr
+   45                | relational_expr . GT additive_expr
+   46                | relational_expr . LE additive_expr
+   47                | relational_expr . GE additive_expr
+
+    GE  shift, and go to state 63
+    LE  shift, and go to state 64
+    GT  shift, and go to state 65
+    LT  shift, and go to state 66
+
+    $default  reduce using rule 42 (equality_expr)
+
+
+state 87
+
+   47 relational_expr: relational_expr GE additive_expr .
+   49 additive_expr: additive_expr . ADD multiplicative_expr
+   50              | additive_expr . SUB multiplicative_expr
+
+    ADD  shift, and go to state 67
+    SUB  shift, and go to state 68
+
+    $default  reduce using rule 47 (relational_expr)
+
+
+state 88
+
+   46 relational_expr: relational_expr LE additive_expr .
+   49 additive_expr: additive_expr . ADD multiplicative_expr
+   50              | additive_expr . SUB multiplicative_expr
+
+    ADD  shift, and go to state 67
+    SUB  shift, and go to state 68
+
+    $default  reduce using rule 46 (relational_expr)
+
+
+state 89
+
+   45 relational_expr: relational_expr GT additive_expr .
+   49 additive_expr: additive_expr . ADD multiplicative_expr
+   50              | additive_expr . SUB multiplicative_expr
+
+    ADD  shift, and go to state 67
+    SUB  shift, and go to state 68
+
+    $default  reduce using rule 45 (relational_expr)
+
+
+state 90
+
+   44 relational_expr: relational_expr LT additive_expr .
+   49 additive_expr: additive_expr . ADD multiplicative_expr
+   50              | additive_expr . SUB multiplicative_expr
+
+    ADD  shift, and go to state 67
+    SUB  shift, and go to state 68
+
+    $default  reduce using rule 44 (relational_expr)
+
+
+state 91
+
+   49 additive_expr: additive_expr ADD multiplicative_expr .
+   52 multiplicative_expr: multiplicative_expr . MUL unary_expr
+   53                    | multiplicative_expr . DIV unary_expr
+   54                    | multiplicative_expr . MOD unary_expr
+
+    MUL  shift, and go to state 69
+    DIV  shift, and go to state 70
+    MOD  shift, and go to state 71
+
+    $default  reduce using rule 49 (additive_expr)
+
+
+state 92
+
+   50 additive_expr: additive_expr SUB multiplicative_expr .
+   52 multiplicative_expr: multiplicative_expr . MUL unary_expr
+   53                    | multiplicative_expr . DIV unary_expr
+   54                    | multiplicative_expr . MOD unary_expr
+
+    MUL  shift, and go to state 69
+    DIV  shift, and go to state 70
+    MOD  shift, and go to state 71
+
+    $default  reduce using rule 50 (additive_expr)
+
+
+state 93
+
+   52 multiplicative_expr: multiplicative_expr MUL unary_expr .
+
+    $default  reduce using rule 52 (multiplicative_expr)
+
+
+state 94
+
+   53 multiplicative_expr: multiplicative_expr DIV unary_expr .
+
+    $default  reduce using rule 53 (multiplicative_expr)
+
+
+state 95
+
+   54 multiplicative_expr: multiplicative_expr MOD unary_expr .
+
+    $default  reduce using rule 54 (multiplicative_expr)
+
+
+state 96
+
+   27 select_stmt: IF LP expression RP . stmt
+   28            | IF LP expression RP . stmt ELSE stmt
+
+    INT          shift, and go to state 1
+    VOID         shift, and go to state 2
+    IF           shift, and go to state 3
+    WHILE        shift, and go to state 4
+    FOR          shift, and go to state 5
+    RETURN       shift, and go to state 6
+    FLOAT        shift, and go to state 8
+    DOUBLE       shift, and go to state 9
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 12
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    SEMI         shift, and go to state 16
+    LP           shift, and go to state 17
+    LBRACE       shift, and go to state 18
+
+    stmt                 go to state 102
+    type_specifier       go to state 22
+    declaration          go to state 23
+    compound_stmt        go to state 24
+    expr_stmt            go to state 25
+    select_stmt          go to state 26
+    iter_stmt            go to state 27
+    jump_stmt            go to state 28
+    expression           go to state 29
+    assign_expr          go to state 30
+    logic_or_expr        go to state 31
+    logic_and_expr       go to state 32
+    equality_expr        go to state 33
+    relational_expr      go to state 34
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 97
+
+   29 iter_stmt: WHILE LP expression RP . stmt
+
+    INT          shift, and go to state 1
+    VOID         shift, and go to state 2
+    IF           shift, and go to state 3
+    WHILE        shift, and go to state 4
+    FOR          shift, and go to state 5
+    RETURN       shift, and go to state 6
+    FLOAT        shift, and go to state 8
+    DOUBLE       shift, and go to state 9
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 12
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    SEMI         shift, and go to state 16
+    LP           shift, and go to state 17
+    LBRACE       shift, and go to state 18
+
+    stmt                 go to state 103
+    type_specifier       go to state 22
+    declaration          go to state 23
+    compound_stmt        go to state 24
+    expr_stmt            go to state 25
+    select_stmt          go to state 26
+    iter_stmt            go to state 27
+    jump_stmt            go to state 28
+    expression           go to state 29
+    assign_expr          go to state 30
+    logic_or_expr        go to state 31
+    logic_and_expr       go to state 32
+    equality_expr        go to state 33
+    relational_expr      go to state 34
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 98
+
+   30 iter_stmt: FOR LP expr_stmt expr_stmt . expression RP stmt
+
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 12
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    LP           shift, and go to state 17
+
+    expression           go to state 104
+    assign_expr          go to state 30
+    logic_or_expr        go to state 31
+    logic_and_expr       go to state 32
+    equality_expr        go to state 33
+    relational_expr      go to state 34
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 99
+
+    1 program: MAIN LP RP LBRACE . stmt_list RBRACE
+
+    INT          shift, and go to state 1
+    VOID         shift, and go to state 2
+    IF           shift, and go to state 3
+    WHILE        shift, and go to state 4
+    FOR          shift, and go to state 5
+    RETURN       shift, and go to state 6
+    FLOAT        shift, and go to state 8
+    DOUBLE       shift, and go to state 9
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 12
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    SEMI         shift, and go to state 16
+    LP           shift, and go to state 17
+    LBRACE       shift, and go to state 18
+
+    INT          [reduce using rule 11 (stmt_list)]
+    VOID         [reduce using rule 11 (stmt_list)]
+    IF           [reduce using rule 11 (stmt_list)]
+    WHILE        [reduce using rule 11 (stmt_list)]
+    FOR          [reduce using rule 11 (stmt_list)]
+    RETURN       [reduce using rule 11 (stmt_list)]
+    FLOAT        [reduce using rule 11 (stmt_list)]
+    DOUBLE       [reduce using rule 11 (stmt_list)]
+    REAL_NUMBER  [reduce using rule 11 (stmt_list)]
+    NUMBER       [reduce using rule 11 (stmt_list)]
+    ID           [reduce using rule 11 (stmt_list)]
+    NOT          [reduce using rule 11 (stmt_list)]
+    ADD          [reduce using rule 11 (stmt_list)]
+    SUB          [reduce using rule 11 (stmt_list)]
+    SEMI         [reduce using rule 11 (stmt_list)]
+    LP           [reduce using rule 11 (stmt_list)]
+    LBRACE       [reduce using rule 11 (stmt_list)]
+    $default     reduce using rule 11 (stmt_list)
+
+    stmt                 go to state 20
+    stmt_list            go to state 105
+    type_specifier       go to state 22
+    declaration          go to state 23
+    compound_stmt        go to state 24
+    expr_stmt            go to state 25
+    select_stmt          go to state 26
+    iter_stmt            go to state 27
+    jump_stmt            go to state 28
+    expression           go to state 29
+    assign_expr          go to state 30
+    logic_or_expr        go to state 31
+    logic_and_expr       go to state 32
+    equality_expr        go to state 33
+    relational_expr      go to state 34
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 100
+
+   22 init_declarator: ID ASSIGN expression .
+
+    $default  reduce using rule 22 (init_declarator)
+
+
+state 101
+
+   20 decl_list: decl_list COMMA init_declarator .
+
+    $default  reduce using rule 20 (decl_list)
+
+
+state 102
+
+   27 select_stmt: IF LP expression RP stmt .
+   28            | IF LP expression RP stmt . ELSE stmt
+
+    ELSE  shift, and go to state 106
+
+    ELSE      [reduce using rule 27 (select_stmt)]
+    $default  reduce using rule 27 (select_stmt)
+
+
+state 103
+
+   29 iter_stmt: WHILE LP expression RP stmt .
+
+    $default  reduce using rule 29 (iter_stmt)
+
+
+state 104
+
+   30 iter_stmt: FOR LP expr_stmt expr_stmt expression . RP stmt
+
+    RP  shift, and go to state 107
+
+
+state 105
+
+    1 program: MAIN LP RP LBRACE stmt_list . RBRACE
+   10 stmt_list: stmt_list . stmt
+   13          | stmt_list . stmt
+
+    INT          shift, and go to state 1
+    VOID         shift, and go to state 2
+    IF           shift, and go to state 3
+    WHILE        shift, and go to state 4
+    FOR          shift, and go to state 5
+    RETURN       shift, and go to state 6
+    FLOAT        shift, and go to state 8
+    DOUBLE       shift, and go to state 9
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 12
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    SEMI         shift, and go to state 16
+    LP           shift, and go to state 17
+    LBRACE       shift, and go to state 18
+    RBRACE       shift, and go to state 108
+
+    stmt                 go to state 54
+    type_specifier       go to state 22
+    declaration          go to state 23
+    compound_stmt        go to state 24
+    expr_stmt            go to state 25
+    select_stmt          go to state 26
+    iter_stmt            go to state 27
+    jump_stmt            go to state 28
+    expression           go to state 29
+    assign_expr          go to state 30
+    logic_or_expr        go to state 31
+    logic_and_expr       go to state 32
+    equality_expr        go to state 33
+    relational_expr      go to state 34
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 106
+
+   28 select_stmt: IF LP expression RP stmt ELSE . stmt
+
+    INT          shift, and go to state 1
+    VOID         shift, and go to state 2
+    IF           shift, and go to state 3
+    WHILE        shift, and go to state 4
+    FOR          shift, and go to state 5
+    RETURN       shift, and go to state 6
+    FLOAT        shift, and go to state 8
+    DOUBLE       shift, and go to state 9
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 12
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    SEMI         shift, and go to state 16
+    LP           shift, and go to state 17
+    LBRACE       shift, and go to state 18
+
+    stmt                 go to state 109
+    type_specifier       go to state 22
+    declaration          go to state 23
+    compound_stmt        go to state 24
+    expr_stmt            go to state 25
+    select_stmt          go to state 26
+    iter_stmt            go to state 27
+    jump_stmt            go to state 28
+    expression           go to state 29
+    assign_expr          go to state 30
+    logic_or_expr        go to state 31
+    logic_and_expr       go to state 32
+    equality_expr        go to state 33
+    relational_expr      go to state 34
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 107
+
+   30 iter_stmt: FOR LP expr_stmt expr_stmt expression RP . stmt
+
+    INT          shift, and go to state 1
+    VOID         shift, and go to state 2
+    IF           shift, and go to state 3
+    WHILE        shift, and go to state 4
+    FOR          shift, and go to state 5
+    RETURN       shift, and go to state 6
+    FLOAT        shift, and go to state 8
+    DOUBLE       shift, and go to state 9
+    REAL_NUMBER  shift, and go to state 10
+    NUMBER       shift, and go to state 11
+    ID           shift, and go to state 12
+    NOT          shift, and go to state 13
+    ADD          shift, and go to state 14
+    SUB          shift, and go to state 15
+    SEMI         shift, and go to state 16
+    LP           shift, and go to state 17
+    LBRACE       shift, and go to state 18
+
+    stmt                 go to state 110
+    type_specifier       go to state 22
+    declaration          go to state 23
+    compound_stmt        go to state 24
+    expr_stmt            go to state 25
+    select_stmt          go to state 26
+    iter_stmt            go to state 27
+    jump_stmt            go to state 28
+    expression           go to state 29
+    assign_expr          go to state 30
+    logic_or_expr        go to state 31
+    logic_and_expr       go to state 32
+    equality_expr        go to state 33
+    relational_expr      go to state 34
+    additive_expr        go to state 35
+    multiplicative_expr  go to state 36
+    unary_expr           go to state 37
+    primary_expr         go to state 38
+
+
+state 108
+
+    1 program: MAIN LP RP LBRACE stmt_list RBRACE .
+
+    $default  reduce using rule 1 (program)
+
+
+state 109
+
+   28 select_stmt: IF LP expression RP stmt ELSE stmt .
+
+    $default  reduce using rule 28 (select_stmt)
+
+
+state 110
+
+   30 iter_stmt: FOR LP expr_stmt expr_stmt expression RP stmt .
+
+    $default  reduce using rule 30 (iter_stmt)
